@@ -121,3 +121,66 @@ h2 {
   align-items: center;
   margin-bottom: 20px;
 }
+
+.controls {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.view_flex {
+  flex-direction: column;
+  width: auto;
+  gap: 50px;
+}
+
+.controls i {
+  padding: 25px 0;
+  text-align: center;
+  font-size: 1.3rem;
+  color: #b8c6dc;
+  width: 110px;
+  cursor: pointer;
+  border: 1px solid #fff;
+  position: relative;
+  z-index: 999;
+}
+
+.view_flex i {
+  padding: 25px 0;
+  text-align: center;
+  font-size: 1.3rem;
+  color: #b8c6dc;
+  width: 110px;
+  cursor: pointer;
+  position: relative;
+  z-index: 999;
+}
+
+@media screen and (max-width: 800px) {
+  .wrapper {
+    width: 90vmin;
+    height: 115vmin;
+  }
+  .game-details {
+    font-size: 1rem;
+    padding: 15px 27px;
+  }
+  .controls {
+    display: flex;
+  }
+  .controls i {
+    padding: 15px 0;
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  #ui {
+    position: absolute;
+    right: 5%;
+    bottom: 30%;
+    font-size: 10px;
+  }
+}

@@ -3,6 +3,7 @@ let dom_score = document.querySelector("#score");
 let dom_canvas = document.createElement("canvas");
 document.querySelector("#canvas").appendChild(dom_canvas);
 let CTX = dom_canvas.getContext("2d");
+const controls = document.querySelectorAll(".controls i");
 
 const W = (dom_canvas.width = 400);
 const H = (dom_canvas.height = 400);
@@ -19,7 +20,9 @@ let snake,
   particles = [],
   splashingParticleCount = 20,
   cellsCount,
-  requestID;
+  requestID,
+  velocityX = 0,
+  velocityY = 0;
 
 let helpers = {
   Vec: class {
@@ -152,6 +155,27 @@ let KEY = {
           });
       },
       false
+    );
+  },
+  listenV2() {
+    controls.forEach((button) =>
+      button.addEventListener(
+        "click",
+        (e) => {
+          console.log("e", e.srcElement.dataset.key);
+          if (e.srcElement.dataset.key === "ArrowUp" && this.ArrowDown) return;
+          if (e.srcElement.dataset.key === "ArrowDown" && this.ArrowUp) return;
+          if (e.srcElement.dataset.key === "ArrowLeft" && this.ArrowRight) return;
+          if (e.srcElement.dataset.key === "ArrowRight" && this.ArrowLeft) return;
+          this[e.srcElement.dataset.key] = true;
+          Object.keys(this)
+            .filter((f) => f !== e.srcElement.dataset.key && f !== "listen" && f !== "resetState")
+            .forEach((k) => {
+              this[k] = false;
+            });
+        },
+        false
+      )
     );
   },
 };
@@ -327,6 +351,7 @@ function clear() {
 function initialize() {
   CTX.imageSmoothingEnabled = false;
   KEY.listen();
+  KEY.listenV2();
   cellsCount = cells * cells;
   cellSize = W / cells;
   snake = new Snake();
@@ -376,4 +401,27 @@ function reset() {
   loop();
 }
 
+console.log("initialize", initialize());
+
 initialize();
+
+const changeDirection = (e) => {
+  console.log("e", e);
+  // Changing velocity value based on key press
+  if (e.key === "ArrowUp" && velocityY != 1) {
+    velocityX = 0;
+    velocityY = -1;
+  } else if (e.key === "ArrowDown" && velocityY != -1) {
+    velocityX = 0;
+    velocityY = 1;
+  } else if (e.key === "ArrowLeft" && velocityX != 1) {
+    velocityX = -1;
+    velocityY = 0;
+  } else if (e.key === "ArrowRight" && velocityX != -1) {
+    velocityX = 1;
+    velocityY = 0;
+  }
+};
+
+// // Calling changeDirection on each key click and passing key dataset value as an object
+// controls.forEach((button) => button.addEventListener("click", () => changeDirection({ key: button.dataset.key })));
